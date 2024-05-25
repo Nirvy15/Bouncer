@@ -9,9 +9,28 @@
 </head>
 <body>
     <div class="container centered-container" id="centered-container">
-        <h1>Welcome {{ name }}</h1>
-        <p>Click the button below to join the video call:</p>
-        <a href="{{ link }}" class="button" target="_blank">Join Video Call</a>
+        <h1>Welcome, {{ name }}</h1>
+        <h2>Your Events</h2>
+        <p>Click the buttons below to join the video calls:</p>
+        {% if events %}
+            {% for event in events %}
+                <a href="{{ event.video_call_link }}" class="button event-link" target="_blank">{{ event.event_name }}</a>
+            {% endfor %}
+        {% else %}
+            <p>No events available</p>
+        {% endif %}
     </div>
+
+    <!-- Modal for legal agreement -->
+    <div id="legalModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Legal Agreement</h2>
+            <p>By clicking "I Agree", you acknowledge that you are prohibited from recording the session in any form.</p>
+            <button id="agreeButton" class="button">I Agree</button>
+        </div>
+    </div>
+
+    <script src="/static/js/script.js"></script>
 </body>
 </html>

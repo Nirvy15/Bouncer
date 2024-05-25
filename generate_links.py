@@ -46,18 +46,27 @@ def create_zoom_meeting(event_date):
         'settings': {
             'host_video': False,
             'participant_video': False,
-            'join_before_host': True,
+            'join_before_host': True,  # Allow participants to join before the host
             'mute_upon_entry': True,
             'waiting_room': False,
         }
     }
     response = requests.post(url, headers=headers, json=meeting_details)
+    response.raise_for_status()  # Raise an error for bad status codes
     return response.json()['join_url']
 
 def generate_links():
     connection = get_db_connection()
     try:
         with connection.cursor() as cursor:
+            # Clear the video_calls table
+            cursor.execute("DELETE FROM video_calls")
+            connection.commit()
+            
+            # Reset auto-increment value
+            cursor.execute("ALTER TABLE video_calls AUTO_INCREMENT = 1")
+            connection.commit()
+
             # Get all users and their registered events
             sql = """
             SELECT users.id AS user_id, events.event_id AS event_id, events.event_date AS event_date
@@ -73,6 +82,10 @@ def generate_links():
                 event_id = registration['event_id']
                 event_date = registration['event_date']
                 
+                # Ensure event_date is a datetime object
+                if isinstance(event_date, str):
+                    event_date = datetime.fromisoformat(event_date)
+
                 meeting_link = create_zoom_meeting(event_date)
 
                 # Insert the meeting link into the database
