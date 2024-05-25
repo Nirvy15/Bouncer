@@ -1,0 +1,29 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg
+*.egg-info
+dist
+build
+
+# Virtual Environment
+venv/
+env/
+.venv/
+.env/
+
+# JetBrains
+.idea/
+
+# VS Code
+.vscode/
+
+# PyCharm
+.idea/
+
+# Miscellaneous
+*.log
+*.pot
+*.pyc
+.DS_Store
