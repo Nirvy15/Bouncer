@@ -286,6 +286,12 @@ body {
     cursor: pointer;
 }
 
+/* Logo styles */
+.logo {
+    width: 300px; /* Adjust as needed */
+    margin-bottom: 20px; /* Adjust as needed */
+}
+
 /* Event link styles */
 .event-link {
     pointer-events: none;
